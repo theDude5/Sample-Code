@@ -1,5 +1,6 @@
 /**
- * @author: Stuart Ussher  1160184 
+ * @author: Stuart Ussher
+ Uses the AStar search algorithm to find the shortest path through an ascii art maze. 
 */
 
 import java.io.File;
