@@ -1,0 +1,20 @@
++-------------------------------------------+
+|                                           |
+|     XXXXXXXXXXXXX                         |
+| XXXXXXXXXXXXXXXXXX                        |
+|                XXXX            X          |
+|                XXXXX          X X         |
+|                XXXXX         X X X        |
+|               XXXXX         X X X X       |
+|              XXXXX         X X X XX       |
+|             XXXXX         X X X XX  X     |
+|            XXXXX         XXXXXXXXXXX X    |
+|            XXXXX        XXXXXXXXXXXXX X   |
+|            XXXXX       XXXX    XXXXXXX X  |
+|            XXXXXX   XXXXXX      XXXXXX    |
+|              XXXXX XXXXXX       XXXXX     |
+|               XXXXXXXXXX        XXXX      |
+|                                XXXX       |
+|                              XXXX         |
+|                             SXG           |
++-------------------------------------------+
