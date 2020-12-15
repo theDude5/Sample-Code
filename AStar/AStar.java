@@ -99,8 +99,8 @@ public class AStar extends JPanel {
     public static void main(String[] args) throws FileNotFoundException {
         if (args.length == 0){
             System.out.println("Usage: java AStar <filepath>");
-            args = new String[]{"map3.txt"};
-            //return;
+            //args = new String[]{"map3.txt"};
+            return;
         }
         Scanner scanner = new Scanner(new File((args[0])));
         ArrayList<String> map = new ArrayList<String>();
