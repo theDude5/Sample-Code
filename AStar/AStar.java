@@ -1,6 +1,6 @@
 /**
  * @author: Stuart Ussher
- Uses the AStar search algorithm to find the shortest path through an ascii art maze. 
+   Uses the AStar search algorithm to find the shortest path through an ascii art maze. 
 */
 
 import java.io.File;
@@ -9,13 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import java.awt.*;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 public class AStar extends JPanel {
     private final int[][] Valid = {{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
@@ -37,19 +31,22 @@ public class AStar extends JPanel {
     Site[][] map;
     Site goal, start, pos;
     ArrayList<Site> frontier;
+    int scale = 10;
+    int height, width;
     public AStar(ArrayList<String> _map) {
+        height = _map.size();
+        width = _map.get(0).length();
         frontier = new ArrayList<Site>();
-        this.map = new Site[_map.size()][_map.get(0).length()];
+        this.map = new Site[height][width];
         for (int i = 0; i < this.map.length; i++) {
-            for (int j = 0; j < this.map[i].length; j++) { this.map[i][j] = new Site(_map.get(i).charAt(j), i, j); }
+            for (int j = 0; j < this.map[i].length; j++) { this.map[i][j] = new Site(_map.get(i).charAt(j), j, i); }
         }
-        //printMap();
+
         for (Site[] row : map) { for (Site cell : row) { cell.calc_distance(); } }
         expand();
         try { while (pos != goal) { expand(); }} 
         catch (Error e) { System.err.println(e.getMessage()); return; }
         while (pos.prev != start) { pos = pos.prev; pos.val = '.'; }
-        printMap();
     }
 
     public void expand() {
@@ -60,7 +57,7 @@ public class AStar extends JPanel {
         Site temp;
         double cost;
         for (int[] coord : Valid) {
-            temp = map[pos.x + coord[0]][pos.y + coord[1]];
+            temp = map[pos.y + coord[0]][pos.x + coord[1]];
             if (temp.h < 0) { continue; }
             cost = coord[0] == 0 || coord[1] == 0? 1 : Math.sqrt(2);
             if (temp.prev == null) {
@@ -80,21 +77,25 @@ public class AStar extends JPanel {
         //System.out.printf("Start: (%d,%d)\t Goal: (%d,%d)\n", start.x, start.y, goal.x, goal.y);
     }
 
-    public void paint(Graphics g) {  
+    @Override
+    public void paintComponent(Graphics g) {  
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.scale(10, 10);
+        g2.scale(scale, scale);
         g2.setColor(Color.BLACK);
-        for (Site[] row : map) { for (Site site : row) { if (site.h < 0) { g2.fillRect(site.y+2, site.x+1, 1,1); } } }
+        for (Site[] row : map) { for (Site site : row) { if (site.h < 0) { g2.fillRect(site.x, site.y, 1,1); } } }
         g2.setColor(Color.BLUE);
-        g2.fillRect(start.y+2, start.x+1, 1,1);
-        g2.fillRect(goal.y+2, goal.x+1, 1,1);
+        g2.fillRect(start.x, start.y, 1,1);
+        g2.fillRect(goal.x, goal.y, 1,1);
         pos = goal.prev;
         g2.setColor(Color.RED);
         while (pos != null && pos != start) {
-            g2.fillRect(pos.y+2, pos.x+1, 1,1);
+            g2.fillRect(pos.x, pos.y, 1,1);
             pos = pos.prev;
         }
     }
+
+    public Dimension getDimension(int padding) { return new Dimension(scale*width+padding, scale*height+padding); }
     public static void main(String[] args) throws FileNotFoundException {
         if (args.length == 0){
             System.out.println("Usage: java AStar <filepath>");
@@ -106,15 +107,6 @@ public class AStar extends JPanel {
         while (scanner.hasNext()) { map.add(scanner.nextLine()); }
         scanner.close();
         AStar aStar = new AStar(map);
-        JFrame frame = new JFrame(args[0]);
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
-        panel.setLayout(new GridLayout(1,1,0,0));
-        panel.add(aStar);
-        frame.add(new JScrollPane(panel), BorderLayout.CENTER);
-        frame.setBounds(0, 0, 11*map.get(0).length()+10, 11*map.size()+10);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        aStar.printMap();
     }
 }
