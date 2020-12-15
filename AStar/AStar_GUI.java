@@ -19,8 +19,8 @@ public class AStar_GUI {
     public static void main(String[] args) throws FileNotFoundException {
         if (args.length == 0){
             System.out.println("Usage: java AStar <filepath>");
-            args = new String[]{"60x60.txt"};
-            //return;
+            //args = new String[]{"60x60.txt"};
+            return;
         }
 
         Scanner scanner = new Scanner(new File((args[0])));
